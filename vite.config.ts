@@ -5,6 +5,9 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // Set base to repo name for GitHub Pages (e.g., '/my-cassette-player/')
+  // Leave as '/' for Lovable preview or root domain deployment
+  base: process.env.GITHUB_ACTIONS ? './' : '/',
   server: {
     host: "::",
     port: 8080,
