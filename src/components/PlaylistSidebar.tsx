@@ -38,7 +38,6 @@ export function PlaylistSidebar({
           <div className="p-8 text-center text-muted-foreground">
             <p>No tracks found.</p>
             <p className="text-sm mt-2">Add MP3 files to /public/audio/</p>
-            <p className="text-xs mt-1">and update manifest.json</p>
           </div>
         ) : (
           <ul className="divide-y divide-border/30">
