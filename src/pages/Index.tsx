@@ -37,7 +37,7 @@ const Index = () => {
       )}
 
       {/* Main Layout */}
-      <div className="min-h-screen bg-background p-4 md:p-8">
+      <div className="min-h-screen bg-background p-4 md:p-8 crt-overlay vignette">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <header className="text-center mb-8">
