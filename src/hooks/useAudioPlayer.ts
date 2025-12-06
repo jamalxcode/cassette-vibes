@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Track } from '@/lib/trackLoader';
+import { toast } from 'sonner';
 
 interface AudioPlayerState {
   isPlaying: boolean;
@@ -56,9 +57,14 @@ export function useAudioPlayer(tracks: Track[]) {
       setState(prev => ({ ...prev, isLoading: false }));
     };
 
-    const handleError = () => {
+    const handleError = (e: Event) => {
       setState(prev => ({ ...prev, isLoading: false, isPlaying: false }));
-      console.error('Audio playback error');
+      const audio = e.target as HTMLAudioElement;
+      const track = tracks[state.currentTrackIndex];
+      console.error('Audio playback error:', audio.error);
+      toast.error(`Failed to load: ${track?.title || 'track'}`, {
+        description: 'The audio file could not be played'
+      });
     };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);

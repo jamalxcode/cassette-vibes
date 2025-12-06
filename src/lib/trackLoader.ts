@@ -24,13 +24,17 @@ function parseFilename(filename: string): { title: string; artist: string } {
   return { title: name.replace(/_/g, ' '), artist: 'Unknown Artist' };
 }
 
+// Get the base URL for assets (handles GitHub Pages subdirectory)
+const BASE_URL = import.meta.env.BASE_URL || '/';
+
 // Load tracks from manifest.json
 export async function loadTracksFromManifest(): Promise<Track[]> {
   try {
-    // Fetch the manifest file
-    const response = await fetch('audio/manifest.json');
+    // Fetch the manifest file using BASE_URL for GitHub Pages compatibility
+    const manifestUrl = `${BASE_URL}audio/manifest.json`;
+    const response = await fetch(manifestUrl);
     if (!response.ok) {
-      console.warn('No manifest.json found in /audio folder');
+      console.warn(`No manifest.json found at ${manifestUrl}`);
       return [];
     }
     
@@ -41,9 +45,9 @@ export async function loadTracksFromManifest(): Promise<Track[]> {
       return [];
     }
     
-    // Build track list from filenames
+    // Build track list from filenames using BASE_URL for paths
     const tracks: Track[] = files.map((filename, index) => {
-      const src = `audio/${filename}`;
+      const src = `${BASE_URL}audio/${filename}`;
       const id = String(index + 1);
       const { title, artist } = parseFilename(filename);
       
