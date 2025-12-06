@@ -4,11 +4,17 @@ import { PlaylistSidebar } from '@/components/PlaylistSidebar';
 import { AudioStartOverlay } from '@/components/AudioStartOverlay';
 import { useAudioPlayerContext } from '@/contexts/AudioPlayerContext';
 import { useTracks } from '@/hooks/useTracks';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import { useMediaSession } from '@/hooks/useMediaSession';
 import { Loader2 } from 'lucide-react';
 
 const Index = () => {
   const [audioEnabled, setAudioEnabled] = useState(false);
   const { data: tracks = [], isLoading: isLoadingTracks } = useTracks();
+  
+  // Enable keyboard shortcuts and media session
+  useKeyboardShortcuts();
+  useMediaSession();
   
   const {
     isPlaying,
