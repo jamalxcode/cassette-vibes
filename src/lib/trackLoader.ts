@@ -1,5 +1,3 @@
-import jsmediatags from 'jsmediatags';
-
 export interface Track {
   id: string;
   title: string;
@@ -8,46 +6,10 @@ export interface Track {
   cover?: string;
 }
 
-// Default cover for tracks without embedded art
-export const DEFAULT_COVER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%234a3728' width='100' height='100'/%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='%23d4a574' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='12' fill='%23d4a574'/%3E%3Ccircle cx='50' cy='50' r='5' fill='%234a3728'/%3E%3C/svg%3E";
+// Default cover for tracks without embedded art (cassette tape SVG)
+export const DEFAULT_COVER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%234a3728' width='100' height='100'/%3E%3Ccircle cx='30' cy='50' r='20' fill='none' stroke='%23d4a574' stroke-width='2'/%3E%3Ccircle cx='70' cy='50' r='20' fill='none' stroke='%23d4a574' stroke-width='2'/%3E%3Ccircle cx='30' cy='50' r='8' fill='%23d4a574'/%3E%3Ccircle cx='70' cy='50' r='8' fill='%23d4a574'/%3E%3Crect x='30' y='45' width='40' height='10' fill='%23d4a574' opacity='0.3'/%3E%3C/svg%3E";
 
-interface ID3Tags {
-  title?: string;
-  artist?: string;
-  picture?: {
-    format: string;
-    data: number[];
-  };
-}
-
-// Extract ID3 tags from an MP3 file
-export function extractID3Tags(url: string): Promise<ID3Tags> {
-  return new Promise((resolve) => {
-    jsmediatags.read(url, {
-      onSuccess: (tag: any) => {
-        const tags = tag.tags || {};
-        resolve({
-          title: tags.title,
-          artist: tags.artist,
-          picture: tags.picture,
-        });
-      },
-      onError: () => {
-        resolve({});
-      },
-    });
-  });
-}
-
-// Convert ID3 picture data to base64 data URL
-export function pictureToDataUrl(picture: { format: string; data: number[] }): string {
-  const base64 = btoa(
-    picture.data.reduce((data, byte) => data + String.fromCharCode(byte), '')
-  );
-  return `data:${picture.format};base64,${base64}`;
-}
-
-// Parse filename to extract title (fallback when no ID3 tags)
+// Parse filename to extract title and artist
 function parseFilename(filename: string): { title: string; artist: string } {
   // Remove extension
   const name = filename.replace(/\.mp3$/i, '');
@@ -59,10 +21,10 @@ function parseFilename(filename: string): { title: string; artist: string } {
   }
   
   // Just use filename as title
-  return { title: name, artist: 'Unknown Artist' };
+  return { title: name.replace(/_/g, ' '), artist: 'Unknown Artist' };
 }
 
-// Load manifest and build track list
+// Load tracks from manifest.json
 export async function loadTracksFromManifest(): Promise<Track[]> {
   try {
     // Fetch the manifest file
@@ -79,35 +41,20 @@ export async function loadTracksFromManifest(): Promise<Track[]> {
       return [];
     }
     
-    // Load each track with ID3 metadata
-    const tracks: Track[] = await Promise.all(
-      files.map(async (filename, index) => {
-        const src = `audio/${filename}`;
-        const id = String(index + 1);
-        
-        // Try to extract ID3 tags
-        const tags = await extractID3Tags(src);
-        const fallback = parseFilename(filename);
-        
-        // Build cover from embedded picture
-        let cover: string | undefined;
-        if (tags.picture) {
-          try {
-            cover = pictureToDataUrl(tags.picture);
-          } catch {
-            cover = undefined;
-          }
-        }
-        
-        return {
-          id,
-          title: tags.title || fallback.title,
-          artist: tags.artist || fallback.artist,
-          src,
-          cover,
-        };
-      })
-    );
+    // Build track list from filenames
+    const tracks: Track[] = files.map((filename, index) => {
+      const src = `audio/${filename}`;
+      const id = String(index + 1);
+      const { title, artist } = parseFilename(filename);
+      
+      return {
+        id,
+        title,
+        artist,
+        src,
+        cover: undefined, // Will use DEFAULT_COVER
+      };
+    });
     
     return tracks;
   } catch (error) {
