@@ -1,4 +1,4 @@
-import { Track, DEFAULT_COVER } from '@/data/tracks';
+import { Track, DEFAULT_COVER } from '@/lib/trackLoader';
 import { cn } from '@/lib/utils';
 import { Music } from 'lucide-react';
 
@@ -37,7 +37,8 @@ export function PlaylistSidebar({
         {tracks.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             <p>No tracks found.</p>
-            <p className="text-sm mt-2">Add tracks to src/data/tracks.ts</p>
+            <p className="text-sm mt-2">Add MP3 files to /public/audio/</p>
+            <p className="text-xs mt-1">and update manifest.json</p>
           </div>
         ) : (
           <ul className="divide-y divide-border/30">
@@ -49,12 +50,12 @@ export function PlaylistSidebar({
                     "w-full p-3 flex items-center gap-3 text-left transition-retro",
                     "hover:bg-playlist-hover",
                     "focus:outline-none focus:bg-playlist-hover",
-                    "min-h-[68px]", // 44px touch target
+                    "min-h-[68px]",
                     currentTrackIndex === index && "bg-playlist-active border-l-4 border-wood"
                   )}
                 >
                   {/* Album Art */}
-                  <div className="w-12 h-12 rounded overflow-hidden flex-shrink-0 shadow-md">
+                  <div className="w-12 h-12 rounded overflow-hidden flex-shrink-0 shadow-md bg-muted">
                     <img
                       src={track.cover || DEFAULT_COVER}
                       alt={`${track.title} album art`}

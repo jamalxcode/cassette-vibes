@@ -4,7 +4,7 @@ import { LCDDisplay } from './LCDDisplay';
 import { VUMeterProgress } from './VUMeterProgress';
 import { VolumeSlider } from './VolumeSlider';
 import { TransportButton } from './TransportButton';
-import { Track } from '@/data/tracks';
+import { Track } from '@/lib/trackLoader';
 import { cn } from '@/lib/utils';
 
 interface CassettePlayerProps {

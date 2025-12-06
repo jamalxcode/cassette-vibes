@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Track } from '@/data/tracks';
+import { Track } from '@/lib/trackLoader';
 
 interface AudioPlayerState {
   isPlaying: boolean;
@@ -39,7 +39,6 @@ export function useAudioPlayer(tracks: Track[]) {
     };
 
     const handleEnded = () => {
-      // Auto-advance to next track
       setState(prev => {
         const nextIndex = prev.currentTrackIndex + 1;
         if (nextIndex < tracks.length) {
@@ -134,7 +133,6 @@ export function useAudioPlayer(tracks: Track[]) {
 
   const previousTrack = useCallback(() => {
     setState(prev => {
-      // If more than 3 seconds in, restart current track
       if (prev.currentTime > 3) {
         if (audioRef.current) {
           audioRef.current.currentTime = 0;

@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Track } from '@/data/tracks';
+import { Track } from '@/lib/trackLoader';
 
 interface LCDDisplayProps {
   track: Track | null;
