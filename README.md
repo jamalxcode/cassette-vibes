@@ -1,73 +1,45 @@
-# Welcome to your Lovable project
+# Retro Cassette Player
 
-## Project info
+A beautiful retro-styled cassette tape music player built with React.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Adding Music
 
-## How can I edit this code?
+Simply upload your MP3 files to the `/public/audio/` folder. The app will automatically detect and load them - no configuration needed!
 
-There are several ways of editing your application.
+### File Naming
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+For best results, name your files using this format:
+```
+Artist Name - Song Title.mp3
 ```
 
-**Edit a file directly in GitHub**
+Examples:
+- `The Beatles - Hey Jude.mp3`
+- `Queen - Bohemian Rhapsody.mp3`
+- `Unknown Artist - My Song.mp3`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The app will parse the filename to extract the artist and title automatically.
 
-**Use GitHub Codespaces**
+### How to Upload via GitHub
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Navigate to the `public/audio` folder in your repository
+2. Click **Add file** → **Upload files**
+3. Drag and drop your MP3 files
+4. Click **Commit changes**
 
-## What technologies are used for this project?
+The app will rebuild automatically and your new tracks will appear in the playlist.
 
-This project is built with:
+## Deploying to GitHub Pages
 
-- Vite
+1. Go to your repository **Settings** → **Pages**
+2. Under "Build and deployment", set Source to **GitHub Actions**
+3. Push your code - the app will deploy automatically
+
+Your app will be available at: `https://YOUR-USERNAME.github.io/REPO-NAME/`
+
+## Technology Stack
+
+- React + Vite
 - TypeScript
-- React
-- shadcn-ui
 - Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- shadcn/ui
