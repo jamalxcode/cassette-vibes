@@ -6,9 +6,9 @@ import { audioManifestPlugin } from "./vite-plugin-audio-manifest";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // For GitHub Pages: use repo name as base path
-  // For Lovable preview: use root
-  base: '/',
+  // For GitHub Pages subdirectory deployment, use relative paths
+  // This works for both root domain and subdirectory deployments
+  base: './',
   server: {
     host: "::",
     port: 8080,
