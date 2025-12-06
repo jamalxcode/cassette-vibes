@@ -2,95 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Warm retro cream palette */
+    --background: 35 30% 92%;
+    --foreground: 25 30% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
+    /* Cassette deck body */
+    --deck-body: 35 25% 88%;
+    --deck-body-dark: 30 20% 78%;
+    --deck-shadow: 25 20% 60%;
+    
+    /* Wood grain accents */
+    --wood: 25 45% 35%;
+    --wood-light: 28 40% 45%;
+    --wood-dark: 22 50% 25%;
+    
+    /* Chrome/metal */
+    --chrome: 220 10% 75%;
+    --chrome-light: 220 15% 90%;
+    --chrome-dark: 220 8% 55%;
+    
+    /* LCD display */
+    --lcd-bg: 80 30% 20%;
+    --lcd-text: 80 100% 65%;
+    --lcd-glow: 80 100% 50%;
+    
+    /* VU meter colors */
+    --vu-green: 120 60% 45%;
+    --vu-yellow: 45 100% 50%;
+    --vu-red: 0 80% 50%;
+    
+    /* Buttons */
+    --button: 35 20% 82%;
+    --button-pressed: 35 20% 72%;
+    --button-text: 25 30% 25%;
+    
+    /* Playlist */
+    --playlist-bg: 35 25% 94%;
+    --playlist-item: 35 20% 90%;
+    --playlist-active: 35 35% 85%;
+    --playlist-hover: 35 30% 88%;
+    
+    /* Standard shadcn tokens mapped to retro theme */
+    --card: 35 25% 90%;
+    --card-foreground: 25 30% 15%;
+    --popover: 35 25% 92%;
+    --popover-foreground: 25 30% 15%;
+    --primary: 25 45% 35%;
+    --primary-foreground: 35 30% 95%;
+    --secondary: 35 20% 85%;
+    --secondary-foreground: 25 30% 20%;
+    --muted: 35 15% 80%;
+    --muted-foreground: 25 15% 45%;
+    --accent: 80 30% 20%;
+    --accent-foreground: 80 100% 65%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --border: 30 20% 75%;
+    --input: 35 20% 85%;
+    --ring: 25 45% 35%;
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar tokens */
+    --sidebar-background: 35 25% 94%;
+    --sidebar-foreground: 25 30% 20%;
+    --sidebar-primary: 25 45% 35%;
+    --sidebar-primary-foreground: 35 30% 95%;
+    --sidebar-accent: 35 35% 85%;
+    --sidebar-accent-foreground: 25 30% 15%;
+    --sidebar-border: 30 20% 80%;
+    --sidebar-ring: 25 45% 35%;
   }
 }
 
@@ -100,6 +84,157 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  /* LCD Display Font */
+  .font-lcd {
+    font-family: 'VT323', monospace;
+  }
+  
+  /* Wood grain texture */
+  .wood-texture {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--wood)) 0%,
+      hsl(var(--wood-light)) 25%,
+      hsl(var(--wood)) 50%,
+      hsl(var(--wood-dark)) 75%,
+      hsl(var(--wood)) 100%
+    );
+    background-size: 8px 100%;
+  }
+  
+  /* Deck body gradient */
+  .deck-body {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--deck-body)) 0%,
+      hsl(var(--deck-body-dark)) 100%
+    );
+  }
+  
+  /* Chrome effect */
+  .chrome-effect {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--chrome-light)) 0%,
+      hsl(var(--chrome)) 50%,
+      hsl(var(--chrome-dark)) 100%
+    );
+  }
+  
+  /* Button 3D effect */
+  .retro-button {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--button)) 0%,
+      hsl(var(--button-pressed)) 100%
+    );
+    box-shadow: 
+      0 4px 0 hsl(var(--deck-shadow)),
+      0 6px 8px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.1s ease;
+  }
+  
+  .retro-button:active {
+    transform: translateY(2px);
+    box-shadow: 
+      0 2px 0 hsl(var(--deck-shadow)),
+      0 3px 4px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  
+  /* LCD screen glow */
+  .lcd-glow {
+    text-shadow: 
+      0 0 10px hsl(var(--lcd-glow)),
+      0 0 20px hsl(var(--lcd-glow) / 0.5);
+  }
+  
+  /* Scanline overlay */
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+    pointer-events: none;
+  }
+  
+  /* Cassette window glass effect */
+  .cassette-glass {
+    background: linear-gradient(
+      180deg,
+      rgba(60, 50, 40, 0.85) 0%,
+      rgba(40, 35, 30, 0.9) 100%
+    );
+    box-shadow: 
+      inset 0 2px 4px rgba(0, 0, 0, 0.5),
+      inset 0 -1px 2px rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Tape reel styling */
+  .tape-reel {
+    background: radial-gradient(
+      circle at center,
+      hsl(25 20% 15%) 0%,
+      hsl(25 15% 25%) 40%,
+      hsl(25 10% 35%) 60%,
+      hsl(25 15% 25%) 80%,
+      hsl(25 20% 15%) 100%
+    );
+    box-shadow: 
+      inset 0 0 10px rgba(0, 0, 0, 0.5),
+      0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Spinning animation */
+  @keyframes spin-reel {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .reel-spinning {
+    animation: spin-reel 2s linear infinite;
+  }
+  
+  /* VU meter bar */
+  .vu-meter {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--vu-green)) 0%,
+      hsl(var(--vu-green)) 60%,
+      hsl(var(--vu-yellow)) 60%,
+      hsl(var(--vu-yellow)) 80%,
+      hsl(var(--vu-red)) 80%,
+      hsl(var(--vu-red)) 100%
+    );
+  }
+  
+  /* Noise texture overlay */
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  /* Smooth transitions */
+  .transition-retro {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
