@@ -99,15 +99,8 @@ const Index = () => {
           )}
 
           {/* Footer */}
-          <footer className="mt-12 text-center text-sm text-muted-foreground space-y-2">
-            <p className="font-medium">How to add tracks:</p>
-            <ol className="text-xs space-y-1">
-              <li>1. Upload MP3 files to <code className="px-1.5 py-0.5 bg-muted rounded">/public/audio/</code></li>
-              <li>2. Add filenames to <code className="px-1.5 py-0.5 bg-muted rounded">/public/audio/manifest.json</code></li>
-            </ol>
-            <p className="text-xs text-muted-foreground/60 mt-2">
-              Album art & metadata auto-extracted from MP3 ID3 tags
-            </p>
+          <footer className="mt-12 text-center text-xs text-muted-foreground">
+            <p>Upload MP3 files to <code className="px-1.5 py-0.5 bg-muted rounded">/public/audio/</code> to add tracks</p>
           </footer>
         </div>
       </div>
