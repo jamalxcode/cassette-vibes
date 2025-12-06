@@ -6,9 +6,9 @@ import { audioManifestPlugin } from "./vite-plugin-audio-manifest";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Set base to repo name for GitHub Pages (e.g., '/my-cassette-player/')
-  // Leave as '/' for Lovable preview or root domain deployment
-  base: process.env.GITHUB_ACTIONS ? './' : '/',
+  // For GitHub Pages: use repo name as base path
+  // For Lovable preview: use root
+  base: '/',
   server: {
     host: "::",
     port: 8080,
