@@ -2,22 +2,14 @@ import { useState, useEffect } from 'react';
 import { CassettePlayer } from '@/components/CassettePlayer';
 import { PlaylistSidebar } from '@/components/PlaylistSidebar';
 import { AudioStartOverlay } from '@/components/AudioStartOverlay';
-import { useAudioPlayer } from '@/hooks/useAudioPlayer';
-import { loadTracksFromManifest, Track } from '@/lib/trackLoader';
+import { useAudioPlayerContext } from '@/contexts/AudioPlayerContext';
+import { useTracks } from '@/hooks/useTracks';
 import { Loader2 } from 'lucide-react';
 
 const Index = () => {
   const [audioEnabled, setAudioEnabled] = useState(false);
-  const [tracks, setTracks] = useState<Track[]>([]);
-  const [isLoadingTracks, setIsLoadingTracks] = useState(true);
+  const { data: tracks = [], isLoading: isLoadingTracks } = useTracks();
   
-  // Load tracks from manifest on mount
-  useEffect(() => {
-    loadTracksFromManifest()
-      .then(setTracks)
-      .finally(() => setIsLoadingTracks(false));
-  }, []);
-
   const {
     isPlaying,
     currentTime,
@@ -26,6 +18,7 @@ const Index = () => {
     isLoading,
     currentTrack,
     currentTrackIndex,
+    tracks: playerTracks,
     togglePlayPause,
     stop,
     previousTrack,
@@ -33,7 +26,15 @@ const Index = () => {
     seek,
     setVolume,
     selectTrack,
-  } = useAudioPlayer(tracks);
+    setTracks,
+  } = useAudioPlayerContext();
+
+  // Sync tracks to audio player context when loaded
+  useEffect(() => {
+    if (tracks.length > 0 && playerTracks.length === 0) {
+      setTracks(tracks);
+    }
+  }, [tracks, playerTracks.length, setTracks]);
 
   const handleAudioStart = () => {
     setAudioEnabled(true);

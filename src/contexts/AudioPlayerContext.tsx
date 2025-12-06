@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Track } from '@/lib/trackLoader';
 import { toast } from 'sonner';
 
@@ -11,8 +11,26 @@ interface AudioPlayerState {
   currentTrackIndex: number;
 }
 
-export function useAudioPlayer(tracks: Track[]) {
+interface AudioPlayerContextValue extends AudioPlayerState {
+  tracks: Track[];
+  currentTrack: Track | null;
+  play: () => void;
+  pause: () => void;
+  stop: () => void;
+  togglePlayPause: () => void;
+  nextTrack: () => void;
+  previousTrack: () => void;
+  seek: (time: number) => void;
+  setVolume: (volume: number) => void;
+  selectTrack: (index: number) => void;
+  setTracks: (tracks: Track[]) => void;
+}
+
+const AudioPlayerContext = createContext<AudioPlayerContextValue | null>(null);
+
+export function AudioPlayerProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [tracks, setTracksState] = useState<Track[]>([]);
   const [state, setState] = useState<AudioPlayerState>({
     isPlaying: false,
     currentTime: 0,
@@ -24,10 +42,12 @@ export function useAudioPlayer(tracks: Track[]) {
 
   const currentTrack = tracks[state.currentTrackIndex] || null;
 
-  // Initialize audio element
+  // Initialize audio element once
   useEffect(() => {
-    audioRef.current = new Audio();
-    audioRef.current.volume = state.volume;
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.volume = state.volume;
+    }
 
     const audio = audioRef.current;
 
@@ -59,10 +79,9 @@ export function useAudioPlayer(tracks: Track[]) {
 
     const handleError = (e: Event) => {
       setState(prev => ({ ...prev, isLoading: false, isPlaying: false }));
-      const audio = e.target as HTMLAudioElement;
-      const track = tracks[state.currentTrackIndex];
-      console.error('Audio playback error:', audio.error);
-      toast.error(`Failed to load: ${track?.title || 'track'}`, {
+      const audioEl = e.target as HTMLAudioElement;
+      console.error('Audio playback error:', audioEl.error);
+      toast.error(`Failed to load track`, {
         description: 'The audio file could not be played'
       });
     };
@@ -81,11 +100,10 @@ export function useAudioPlayer(tracks: Track[]) {
       audio.removeEventListener('loadstart', handleLoadStart);
       audio.removeEventListener('canplay', handleCanPlay);
       audio.removeEventListener('error', handleError);
-      audio.pause();
     };
   }, [tracks.length]);
 
-  // Load track when index changes
+  // Load track when index or track changes
   useEffect(() => {
     if (audioRef.current && currentTrack) {
       const wasPlaying = state.isPlaying;
@@ -175,8 +193,14 @@ export function useAudioPlayer(tracks: Track[]) {
     }));
   }, []);
 
-  return {
+  const setTracks = useCallback((newTracks: Track[]) => {
+    setTracksState(newTracks);
+    setState(prev => ({ ...prev, currentTrackIndex: 0, currentTime: 0 }));
+  }, []);
+
+  const value = useMemo<AudioPlayerContextValue>(() => ({
     ...state,
+    tracks,
     currentTrack,
     play,
     pause,
@@ -187,5 +211,20 @@ export function useAudioPlayer(tracks: Track[]) {
     seek,
     setVolume,
     selectTrack,
-  };
+    setTracks,
+  }), [state, tracks, currentTrack, play, pause, stop, togglePlayPause, nextTrack, previousTrack, seek, setVolume, selectTrack, setTracks]);
+
+  return (
+    <AudioPlayerContext.Provider value={value}>
+      {children}
+    </AudioPlayerContext.Provider>
+  );
+}
+
+export function useAudioPlayerContext() {
+  const context = useContext(AudioPlayerContext);
+  if (!context) {
+    throw new Error('useAudioPlayerContext must be used within AudioPlayerProvider');
+  }
+  return context;
 }
