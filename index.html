@@ -21,13 +21,16 @@
   </head>
 
   <body>
+    <!-- Ensure hash route exists for HashRouter BEFORE app loads -->
+    <script>
+      (function() {
+        // Redirect to hash-based route if accessing without hash
+        if (!window.location.hash || window.location.hash === '' || window.location.hash === '#') {
+          window.location.replace(window.location.href.split('#')[0] + '#/');
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- Ensure hash route exists for HashRouter -->
-    <script>
-      if (!window.location.hash || window.location.hash === '') {
-        window.location.hash = '#/';
-      }
-    </script>
   </body>
 </html>
